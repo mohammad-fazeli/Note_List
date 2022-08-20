@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { observer } from "mobx-react-lite";
 import { NoteRoot } from "./styled.components";
 import TaskList from "./TaskList";
@@ -8,18 +8,21 @@ const Note = ({ colors, note, removeNote }) => {
   const changeBackground = (e) => () => {
     note.changeColor(colors[e]);
   };
-
   const changeTitle = (e) => {
     note.changeTitle(e.target.value);
   };
-
   const addNewTask = () => {
     note.addTask();
   };
-
-  const deletTask = (id) => {
+  const deleteTask = (id) => {
     note.removeTask(id);
   };
+  const titleRef = useRef(null);
+
+  useEffect(() => {
+    if (!note.title) titleRef.current?.focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <NoteRoot color={note.color}>
@@ -29,10 +32,11 @@ const Note = ({ colors, note, removeNote }) => {
           placeholder="enter title"
           value={note.title}
           onChange={changeTitle}
+          ref={titleRef}
         />
       </div>
       <div className="main">
-        <TaskList tasks={note.tasks} deletTask={deletTask} />
+        <TaskList tasks={note.tasks} deleteTask={deleteTask} />
         <div>
           <FaPlusSquare className="add_task" onClick={addNewTask} />
         </div>
