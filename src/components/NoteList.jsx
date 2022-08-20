@@ -3,7 +3,7 @@ import { observer } from "mobx-react-lite";
 import AddNote from "./AddNote";
 import Note from "./Note";
 import { NoteListRoot } from "./styled.components";
-import notelist from "../mobx/NoteLIst";
+import noteList from "../mobx/NoteLIst";
 
 const colors = [
   "#FFDA79",
@@ -18,15 +18,15 @@ const colors = [
 const NoteList = () => {
   const removeNote = (id) => {
     if (window.confirm("are you shore")) {
-      notelist.removeNote(id);
+      noteList.removeNote(id);
     }
   };
   const addNewNote = () => {
-    notelist.addNewNote();
+    noteList.addNewNote();
   };
   return (
     <NoteListRoot>
-      {notelist.notes.map((note) => (
+      {noteList.notes.map((note) => (
         <Note
           key={note.id}
           colors={colors}
